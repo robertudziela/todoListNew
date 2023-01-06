@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista zadań</title>
 </head>
-<body onload="init">
+<body onload="init()">
     <h1>Lista zadań do wykonania:</h1>
     <h2>Witaj <span id="name"></span>, zadania do wykonania na dziś:</h2>
     <div id="taskList"></div>
@@ -21,17 +21,31 @@
         }
         
         document.getElementById('name').innerHTML = window.localStorage.getItem('name');
+        let taskList = JSON.parse(window.localStorage.getItem('taskList'));
+        if(taskList == null) {
+            taskList = Array();
+            window.localStorage.setItem('taskList', JSON.stringify(taskList))
+        }
         showTasks();
         }
         
         function addTask() {
             let task = document.getElementById('task').value;
-            window.localStorage.setItem('task', task);
+            let taskList = JSON.parse(window.localStorage.getItem('taskList'));
+            taskList.push(task);
+            window.localStorage.setItem('taskList', JSON.stringify(taskList));
             showTasks();
         }
         function showTasks() {
-            let taskList = document.getElementById('taskList');
-            taskList.innerHTML = window.localStorage.getItem('task');
+            let taskListDiv = document.getElementById('taskList');
+            let taskArray = JSON.parse(window.localStorage.getItem('taskList'));
+            let buffer = "";
+            buffer += "<ul>";
+            for(let i=0; i< taskArray.length; i++) {
+                buffer += "<li>"+taskArray[i]+"</li>";
+            }
+            buffer.innerHTML += "</ul>";
+            taskListDiv.innerHTML = buffer;
         }
     </script>
 </body>
