@@ -6,18 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista zadań</title>
 </head>
-<body>
+<body onload="init">
     <h1>Lista zadań do wykonania:</h1>
     <h2>Witaj <span id="name"></span>, zadania do wykonania na dziś:</h2>
-
+    <div id="taskList"></div>
+    <input type="text" name="" id="task">
+    <button onclick="addTask()">Dodaj</button>
     <script>
-        if(window.localStorage.getItem('name') == null){
+        function init() {
+            if(window.localStorage.getItem('name') == null) {
             //nie ma imienia zapisanego w localstorage
             let name = window.prompt("Podaj swoje imię: ");
             window.localStorage.setItem('name', name);
         }
         
         document.getElementById('name').innerHTML = window.localStorage.getItem('name');
+        showTasks();
+        }
+        
+        function addTask() {
+            let task = document.getElementById('task').value;
+            window.localStorage.setItem('task', task);
+            showTasks();
+        }
+        function showTasks() {
+            let taskList = document.getElementById('taskList');
+            taskList.innerHTML = window.localStorage.getItem('task');
+        }
     </script>
 </body>
 </html>
