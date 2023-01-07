@@ -13,6 +13,7 @@
     <input type="text" name="" id="task">
     <button onclick="addTask()">Dodaj</button>
     <script>
+        
         function init() {
             if(window.localStorage.getItem('name') == null) {
             //nie ma imienia zapisanego w localstorage
@@ -34,6 +35,7 @@
             let taskList = JSON.parse(window.localStorage.getItem('taskList'));
             taskList.push(task);
             window.localStorage.setItem('taskList', JSON.stringify(taskList));
+            document.getElementById('task').value = "";
             showTasks();
         }
         function showTasks() {
@@ -42,11 +44,29 @@
             let buffer = "";
             buffer += "<ul>";
             for(let i=0; i< taskArray.length; i++) {
-                buffer += "<li>"+taskArray[i]+"</li>";
+                buffer += "<li><button onclick=\"removeTask("+i+")\">Usuń</button>"+taskArray[i]+"</li>";
             }
             buffer.innerHTML += "</ul>";
             taskListDiv.innerHTML = buffer;
         }
+        function removeTask(i) {
+            let taskArray = JSON.parse(window.localStorage.getItem('taskList'));
+            taskArray.splice(i, 1);
+            window.localStorage.setItem('taskList', JSON.stringify(taskArray));
+            showTasks();
+        }
+
+//         function inputLength() {
+// 	    return input.value.length;
+//         }
+
+//         function addListAfterKeypress(event) {
+//             if (inputLength() > 0 && event.keyCode === 13) {
+//                 addTask(name);
+//             }
+        
+//         input.addEventListener("keypress", addListAfterKeypress);
+// }
     </script>
 </body>
 </html>
